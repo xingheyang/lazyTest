@@ -1,10 +1,13 @@
 from lazyTest.file import IniFileOperation
 from lazyTest.log import GetLogger
-from lazyTest.utils import Sleep, readElementSource,writeElementKey, ClearTestResult, createData
+from lazyTest.utils import Sleep, readElementSource,writeElementKey, ClearTestResult, createData,cls_Sleep
 from lazyTest.case import TestCase
 from lazyTest.base import  browser_Config
 from lazyTest.page import Page
 
+__version__ = '1.0.6'
+
+__description__ = ""
 
 __all__ = [
     "GetLogger",
@@ -17,4 +20,5 @@ __all__ = [
     "createData",
     "IniFileOperation",
     "TestCase",
+    "cls_Sleep",
 ]

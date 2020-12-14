@@ -1,5 +1,5 @@
 # -*- coding = UTF-8 -*-
-# Autohr   : buxiubuzhi
+# Autohr   : yang
 # File     : log.py
 # project  : Python_project
 # time     : 2020/11/16 16:57
@@ -17,7 +17,7 @@ class GetLogger:
         """
         :param log_path: 日志文件的路径
         """
-        self.file_name = sys.path[-1] + log_path
+        self.file_name = log_path
         self.logger = logging.getLogger(__name__)
         logging.Logger.manager.loggerDict.pop(__name__)
         # 设置日志等级

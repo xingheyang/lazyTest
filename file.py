@@ -1,5 +1,5 @@
 # -*- coding = UTF-8 -*-
-# Autohr   : buxiubuzhi
+# Autohr   : yang
 # File     : file.py
 # project  : Python_project
 # time     : 2020/11/16 16:55
@@ -8,23 +8,13 @@
 import configparser
 import csv
 import json
-import os
 import sys
-
-# import yaml
-from ruamel  import yaml
-
-
-def getPorjectPath():
-    """
-    获取项目路径
-    """
-    return os.path.dirname(os.path.dirname(__file__))
+from ruamel import yaml
 
 
 class FileOperation:
     def __init__(self, filePath):
-        self.filePath = sys.path[-1] + filePath
+        self.filePath = filePath
 
     def readFileToDict(self): ...
 
@@ -40,14 +30,13 @@ class YamlOperation(FileOperation):
         return yaml_data
 
     @staticmethod
-    def writeFileToDict(realFile,data):
+    def writeFileToDict(realFile, data):
         """写入yaml文件"""
         with open(realFile, "w", encoding="utf-8") as f:
-            yaml.dump(data, f,Dumper=yaml.RoundTripDumper)
+            yaml.dump(data, f, Dumper=yaml.RoundTripDumper)
 
 
 class IniFileOperation(FileOperation):
-    
 
     @staticmethod
     def read_Ini():

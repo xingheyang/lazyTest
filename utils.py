@@ -1,5 +1,5 @@
 # -*- coding = UTF-8 -*-
-# Autohr   : buxiubuzhi
+# Autohr   : yang
 # File     : utils.py
 # project  : Python_project
 # time     : 2020/11/16 17:01
@@ -10,7 +10,8 @@ import datetime
 import os
 import time
 import functools
-
+import sys
+import inspect
 
 from lazyTest.file import YamlOperation, IniFileOperation, FileOperation, JsonFileOperation
 
@@ -33,6 +34,19 @@ def Sleep(s: int = 1):
         return inner
 
     return Sleep
+
+
+def cls_Sleep(s : int = 0.2):
+    def decorator(cls):
+        origin_getattribute=cls.__getattribute__
+        @functools.wraps(cls)
+        def new_getattribute(*args,**kwargs):
+            time.sleep(s)
+            inner = origin_getattribute(*args,**kwargs)
+            return inner
+        cls.__getattribute__=new_getattribute
+        return cls
+    return decorator
 
 
 def createData(body: str = "auto{}"):
@@ -79,7 +93,7 @@ def readElementSource(fileName: str) -> FileOperation:
 
 def writeElementKey(filepath,fileName,fileType,data : dict):
     # 得到完整文件路径
-    realFile =  filepath + fileName + '.' + fileType
+    realFile =  filepath + fileName + fileType
     if os.path.exists(realFile):
         print("文件已存在不进行写入")
     else:
