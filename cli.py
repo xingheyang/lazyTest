@@ -104,7 +104,7 @@ import allure
 import pytest
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from lazy import *
+from lazyTest import *
 
 globals()["driver"] = None
 globals()["filepath"] = None
