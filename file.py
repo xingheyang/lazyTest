@@ -33,7 +33,7 @@ class YamlOperation(FileOperation):
     def writeFileToDict(realFile, data):
         """写入yaml文件"""
         with open(realFile, "w", encoding="utf-8") as f:
-            yaml.round_trip_dump(data, f, Dumper=yaml.RoundTripDumper,default_flow_style=False)
+            yaml.round_trip_dump(data, f, Dumper=yaml.RoundTripDumper, default_flow_style=False)
 
 
 class IniFileOperation(FileOperation):
@@ -54,10 +54,10 @@ class JsonFileOperation(FileOperation):
         return json_data
 
     @staticmethod
-    def writeFileToDict(realFile,data):
+    def writeFileToDict(realFile, data):
         """将字典格式数据写入到Json文件"""
         with open(realFile, 'w', encoding='utf8')as fp:
-            json.dump(data,fp,ensure_ascii=False)
+            json.dump(data, fp, ensure_ascii=False)
 
 
 class Csv_File_Operation(FileOperation):
@@ -71,4 +71,5 @@ class Csv_File_Operation(FileOperation):
             return [i[0] for i in data_list]
         else:
             data_list.pop(0)  # 去首行
+
         return data_list

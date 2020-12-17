@@ -5,7 +5,9 @@
 # time     : 2020/12/14 16:39
 # Describe : 
 # ---------------------------------------
-import os, sys, argparse
+
+import argparse
+import os, sys
 from lazyTest import __version__, __description__
 
 PY3 = sys.version_info[0] == 3
@@ -132,13 +134,22 @@ def flush_browser(getdriver):
 # 用例出现异常或失败时截图
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport():
+<<<<<<< HEAD
+=======
+    picture_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time()))
+    filename = getPorjectPath() + globals()["filepath"] + picture_time + ".png"
+>>>>>>> 14ead3f648d6acda6dfa6a24bc2a4be5529989d7
     outcome = yield
     report = outcome.get_result()
     if report.when == 'call':
         xfail = hasattr(report, 'wasxfail')
+<<<<<<< HEAD
         if report.failed and not xfail:
             picture_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time()))
             filename = getPorjectPath() + globals()["filepath"] + picture_time + ".png"
+=======
+        if (report.skipped and xfail) or (report.failed and not xfail):
+>>>>>>> 14ead3f648d6acda6dfa6a24bc2a4be5529989d7
             globals()["driver"].save_screenshot(filename)
             with open(filename, "rb") as f:
                 file = f.read()
@@ -159,7 +170,11 @@ import sys
 import time
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+<<<<<<< HEAD
 from lazyTest import ClearTestResult
+=======
+from lazy import ClearTestResult
+>>>>>>> 14ead3f648d6acda6dfa6a24bc2a4be5529989d7
 
 
 def getPorjectPath():
@@ -227,3 +242,8 @@ run()
     create_file(os.path.join(project_name, "case", "conftest.py"), conftest)
     create_file(os.path.join(project_name, "pytest.ini"), pytest)
     create_file(os.path.join(project_name, "main", "main.py"), main)
+
+
+if __name__ == '__main__':
+    main()
+

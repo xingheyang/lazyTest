@@ -7,6 +7,7 @@ from lazyTest.page import Page
 
 __version__ = '1.0.8'
 
+
 __description__ = ""
 
 __all__ = [

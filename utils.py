@@ -36,6 +36,7 @@ def Sleep(s: int = 1):
     return Sleep
 
 
+
 def cls_Sleep(s: int = 0.2):
     def decorator(cls):
         origin_getattribute = cls.__getattribute__
@@ -48,7 +49,6 @@ def cls_Sleep(s: int = 0.2):
 
         cls.__getattribute__ = new_getattribute
         return cls
-
     return decorator
 
 
@@ -111,3 +111,4 @@ def writeElementKey(filepath, fileName, fileType, data: dict):
             file = JsonFileOperation
         file.writeFileToDict(realFile,newdata)
         print("文件写入成功！！！")
+

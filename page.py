@@ -5,7 +5,8 @@
 # time     : 2020/12/3 11:56
 # Describe :
 # ---------------------------------------
-import allure, sys, os
+
+import sys
 import inspect
 
 from lazyTest import *
@@ -20,7 +21,7 @@ class Page(object):
 
     logName = "log.log"
 
-    def getPorjectPath(self): ...
+    def getPorjectPath(self) -> str: ...
 
     @classmethod
     def getClassName(cls):
@@ -35,12 +36,12 @@ class Page(object):
 
     @classmethod
     def writeKey(cls):
-        '''
+        """
         自动创建yaml资源文件
         :param filepath: 从项目路径下开始指定目录
         :param fileType: 默认yaml文件格式
         :return:
-        '''
+        """
         key = {}
         methods = list(
             filter(lambda m: not m.startswith("__") and not m.endswith("__") and callable(getattr(cls, m)), dir(cls)))
