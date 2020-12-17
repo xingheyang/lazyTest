@@ -5,7 +5,7 @@ from lazyTest.case import TestCase
 from lazyTest.base import  browser_Config
 from lazyTest.page import Page
 
-__version__ = '1.0.8'
+__version__ = '1.0.9'
 
 
 __description__ = ""
