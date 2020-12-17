@@ -109,6 +109,5 @@ def writeElementKey(filepath, fileName, fileType, data: dict):
             file = YamlOperation
         elif fileType == '.json':
             file = JsonFileOperation
-        file.writeFileToDict(realFile,newdata)
+        file.writeFileToDict(realFile, newdata)
         print("文件写入成功！！！")
-

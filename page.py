@@ -6,8 +6,6 @@
 # Describe :
 # ---------------------------------------
 
-import sys
-import inspect
 
 from lazyTest import *
 
@@ -38,8 +36,6 @@ class Page(object):
     def writeKey(cls):
         """
         自动创建yaml资源文件
-        :param filepath: 从项目路径下开始指定目录
-        :param fileType: 默认yaml文件格式
         :return:
         """
         key = {}
@@ -53,6 +49,3 @@ class Page(object):
             doc = func.__doc__
             key[i] = doc
         writeElementKey(cls.getPorjectPath(cls) + cls.filePath, cls.getClassName(), cls.suffix, key)
-
-# if __name__ == '__main__':
-#     print(Page.getClassName())
