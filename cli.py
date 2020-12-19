@@ -186,11 +186,7 @@ import sys
 import time
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-<<<<<<< HEAD
 from lazyTest import ClearTestResult
-=======
-from lazy import ClearTestResult
->>>>>>> 14ead3f648d6acda6dfa6a24bc2a4be5529989d7
 
 
 def getPorjectPath():
@@ -210,25 +206,24 @@ def clearLogAndReport():
 
 def runlastFailed():
     print("启动失败用例重跑")
-    cmd = "pytest -s --lf " + getPorjectPath() + "/case/  --alluredir " + getPorjectPath() + "/result/report"
+    cmd = f"pytest -s --lf {getPorjectPath()}/case --alluredir {getPorjectPath()}/result/report"
     print(os.system(cmd))
 
 
 def startReport():
     print("-------------启动测试报告--------------")
-    startReport = "allure serve " + getPorjectPath() + "/result/report"
-    print(os.system(startReport))
+    cmd = f"allure serve {getPorjectPath()}/result/report"
+    print(os.system(cmd))
 
 
 def startCase(cases):
     print("------------开始执行测试------------")
-    cmd = "pytest -s " + getPorjectPath() + "/case/" + cases + " --alluredir " + getPorjectPath() + "/result/report"
+    cmd = f"pytest -s {getPorjectPath()}/case/{cases} --alluredir {getPorjectPath()}/result/report"
     print(os.system(cmd))
 
 
 def run(cases=" "):
-    '''运行case中所有用例'''
-    # clearLogAndReport()
+    clearLogAndReport()
     startCase(cases)
     s = input("请选择要启用的服务:1:启动失败用例重跑;\t2：启动测试报告;")
     if s == "1":
