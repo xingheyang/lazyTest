@@ -93,6 +93,7 @@ import allure
 import pytest
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from service.loginService import LoginService
 from lazyTest import *
 
 globals()["driver"] = None
@@ -109,8 +110,10 @@ def getPorjectPath():
 def pytest_addoption(parser):
     # 添加参数到pytest.ini
     parser.addini('Terminal', help='访问浏览器参数')
-    parser.addini('URL',  help='添加 url 访问地址参数')
+    parser.addini('URL', help='添加 url 访问地址参数')
     parser.addini('filepath', help='添加 截图路径')
+    parser.addini('username', help='用户名')
+    parser.addini('password', help='密码')
 
 
 @pytest.fixture(scope='session')
@@ -120,6 +123,8 @@ def getdriver(pytestconfig):
     globals()["filepath"] = pytestconfig.getini('filepath')
     driver = browser_Config(Terminal, URL)
     globals()["driver"] = driver.base_driver
+    login = LoginService(driver)
+    login.login(pytestconfig.getini("username"), pytestconfig.getini("password"))
     yield driver
     driver.browser_close()
 
@@ -133,35 +138,55 @@ def flush_browser(getdriver):
 
 # 用例出现异常或失败时截图
 @pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport():
-<<<<<<< HEAD
-=======
-    picture_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time()))
-    filename = getPorjectPath() + globals()["filepath"] + picture_time + ".png"
->>>>>>> 14ead3f648d6acda6dfa6a24bc2a4be5529989d7
+def pytest_runtest_makereport(item):
+    config = item.config
     outcome = yield
     report = outcome.get_result()
     if report.when == 'call':
         xfail = hasattr(report, 'wasxfail')
-<<<<<<< HEAD
         if report.failed and not xfail:
             picture_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time()))
-            filename = getPorjectPath() + globals()["filepath"] + picture_time + ".png"
-=======
-        if (report.skipped and xfail) or (report.failed and not xfail):
->>>>>>> 14ead3f648d6acda6dfa6a24bc2a4be5529989d7
+            project = str(config.rootpath)
+            filepath = globals()["filepath"]
+            filename = project + filepath + picture_time + ".png"
             globals()["driver"].save_screenshot(filename)
             with open(filename, "rb") as f:
                 file = f.read()
                 allure.attach(file, "失败截图", allure.attachment_type.PNG)
 
+
+@pytest.hookimpl(hookwrapper=True, tryfirst=True)
+def pytest_runtest_setup(item):
+    config = item.config
+    project = str(config.rootpath)
+    logging_plugin = config.pluginmanager.get_plugin("logging-plugin")
+    full_fname = project+"/result/log/pytest.log"
+    logging_plugin.set_log_path(full_fname)
+    yield
+
     """
 
     pytest = """
 [pytest]
-Terminal = Chrome
-URL = https://www.baidu.com
+
+
+log_cli = true
+log_cli_level = INFO
+log_format = %(levelname)s %(asctime)s [%(filename)s:%(lineno)-s] %(message)s
+log_date_format = %Y-%M-%D %H:%M:%S
+
+
+
+log_file_level = INFO
+log_file_format = %(levelname)s %(asctime)s [%(filename)s:%(lineno)-s] %(message)s
+log_file_date_format = %Y-%M-%D %H:%M:%S
+
+
+Terminal = ChromeOptions
+URL = 
 filepath = /result/screenshot/
+username = 
+password = 
     """
 
     main = """
