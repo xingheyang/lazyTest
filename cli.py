@@ -206,19 +206,19 @@ def clearLogAndReport():
 
 def runlastFailed():
     print("启动失败用例重跑")
-    cmd = f"pytest -s --lf {getPorjectPath()}/case --alluredir {getPorjectPath()}/result/report"
+    cmd = "pytest -s --lf {}/case --alluredir {}/result/report".format(getPorjectPath(), getPorjectPath())
     print(os.system(cmd))
 
 
 def startReport():
     print("-------------启动测试报告--------------")
-    cmd = f"allure serve {getPorjectPath()}/result/report"
+    cmd = "allure serve {}/result/report".format(getPorjectPath())
     print(os.system(cmd))
 
 
 def startCase(cases):
     print("------------开始执行测试------------")
-    cmd = f"pytest -s {getPorjectPath()}/case/{cases} --alluredir {getPorjectPath()}/result/report"
+    cmd = "pytest -s {}/case/{} --alluredir {}/result/report".format(getPorjectPath(), cases, getPorjectPath())
     print(os.system(cmd))
 
 

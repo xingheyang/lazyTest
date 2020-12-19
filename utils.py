@@ -37,7 +37,7 @@ def Sleep(s: int = 1):
 
 
 
-def cls_Sleep(s: int = 0.2):
+def cls_Sleep(s: float = 0.2):
     def decorator(cls):
         origin_getattribute = cls.__getattribute__
 
