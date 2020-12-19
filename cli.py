@@ -97,14 +97,6 @@ from service.loginService import LoginService
 from lazyTest import *
 
 globals()["driver"] = None
-globals()["filepath"] = None
-
-
-def getPorjectPath():
-    '''
-    获取项目路径
-    '''
-    return os.path.dirname(os.path.dirname(__file__))
 
 
 def pytest_addoption(parser):
@@ -112,6 +104,7 @@ def pytest_addoption(parser):
     parser.addini('Terminal', help='访问浏览器参数')
     parser.addini('URL', help='添加 url 访问地址参数')
     parser.addini('filepath', help='添加 截图路径')
+    parser.addini('logpath', help='添加 日志路径')
     parser.addini('username', help='用户名')
     parser.addini('password', help='密码')
 
@@ -120,7 +113,6 @@ def pytest_addoption(parser):
 def getdriver(pytestconfig):
     Terminal = pytestconfig.getini("Terminal")
     URL = pytestconfig.getini("URL")
-    globals()["filepath"] = pytestconfig.getini('filepath')
     driver = browser_Config(Terminal, URL)
     globals()["driver"] = driver.base_driver
     login = LoginService(driver)
@@ -145,9 +137,9 @@ def pytest_runtest_makereport(item):
     if report.when == 'call':
         xfail = hasattr(report, 'wasxfail')
         if report.failed and not xfail:
-            picture_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time()))
             project = str(config.rootpath)
-            filepath = globals()["filepath"]
+            filepath = config.getini("filepath")
+            picture_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time()))
             filename = project + filepath + picture_time + ".png"
             globals()["driver"].save_screenshot(filename)
             with open(filename, "rb") as f:
@@ -159,9 +151,9 @@ def pytest_runtest_makereport(item):
 def pytest_runtest_setup(item):
     config = item.config
     project = str(config.rootpath)
+    logpath = config.getini("logpath")
     logging_plugin = config.pluginmanager.get_plugin("logging-plugin")
-    full_fname = project+"/result/log/pytest.log"
-    logging_plugin.set_log_path(full_fname)
+    logging_plugin.set_log_path(project + logpath)
     yield
 
     """
@@ -185,8 +177,7 @@ log_file_date_format = %Y-%M-%D %H:%M:%S
 Terminal = ChromeOptions
 URL = 
 filepath = /result/screenshot/
-username = 
-password = 
+logpath = /result/log/log.log
     """
 
     main = """
