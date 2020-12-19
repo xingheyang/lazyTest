@@ -10,13 +10,11 @@ import datetime
 import os
 import time
 import functools
-import sys
-import inspect
 
 from lazyTest.file import YamlOperation, IniFileOperation, FileOperation, JsonFileOperation
 
 
-def Sleep(s: int = 1):
+def Sleep(s: float = 1):
     """
     每个用例的强制休眠。
     """
@@ -36,8 +34,7 @@ def Sleep(s: int = 1):
     return Sleep
 
 
-
-def cls_Sleep(s: int = 0.2):
+def cls_Sleep(s: float = 0.2):
     def decorator(cls):
         origin_getattribute = cls.__getattribute__
 
@@ -49,6 +46,7 @@ def cls_Sleep(s: int = 0.2):
 
         cls.__getattribute__ = new_getattribute
         return cls
+
     return decorator
 
 

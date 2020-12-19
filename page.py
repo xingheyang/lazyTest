@@ -6,7 +6,7 @@
 # Describe :
 # ---------------------------------------
 
-
+import logging
 from lazyTest import *
 
 
@@ -15,22 +15,18 @@ class Page(object):
 
     suffix = ".yaml"
 
-    logPath = "/result/log/"
+    def __init__(self, base_driver: browser_Config) -> None:
+        self.base_driver = base_driver
+        self.log = logging.getLogger(self.getClassName())
+        self.log.info("元素文件: -> %s" % (self.getProjectPath() + self.filePath + self.getClassName() + self.suffix))
+        self.selector = readElementSource(
+            self.getProjectPath() + self.filePath + self.getClassName() + self.suffix).readFileToDict()
 
-    logName = "log.log"
-
-    def getPorjectPath(self) -> str: ...
+    def getProjectPath(self) -> str: ...
 
     @classmethod
     def getClassName(cls):
         return cls.__name__
-
-    def __init__(self, base_driver: browser_Config) -> None:
-        self.base_driver = base_driver
-        self.log = GetLogger(self.getPorjectPath() + self.logPath + self.logName).logger
-        self.log.info("元素文件: -> %s" % self.getPorjectPath() + self.filePath + self.getClassName() + self.suffix)
-        self.selector = readElementSource(
-            self.getPorjectPath() + self.filePath + self.getClassName() + self.suffix).readFileToDict()
 
     @classmethod
     def writeKey(cls):
@@ -48,4 +44,4 @@ class Page(object):
             func = getattr(cls, i)
             doc = func.__doc__
             key[i] = doc
-        writeElementKey(cls.getPorjectPath(cls) + cls.filePath, cls.getClassName(), cls.suffix, key)
+        writeElementKey(cls.getProjectPath(cls) + cls.filePath, cls.getClassName(), cls.suffix, key)
