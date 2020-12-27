@@ -238,7 +238,7 @@ run()
 
     create_folder(project_name)  # 创建项目目录
     # 创建目录结构
-    create_folder(os.path.join(project_name, "page"))
+    create_folder(os.path.join(project_name, "pages"))
     create_folder(os.path.join(project_name, "service"))
     create_folder(os.path.join(project_name, "case"))
     create_folder(os.path.join(project_name, "main"))

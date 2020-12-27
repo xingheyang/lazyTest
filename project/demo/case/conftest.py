@@ -9,12 +9,11 @@
 import os
 import sys
 import time
-
+import lazyTest
 import allure
 import pytest
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from service.loginService import LoginService
 
 globals()["driver"] = None
 
@@ -25,18 +24,14 @@ def pytest_addoption(parser):
     parser.addini('URL', help='添加 url 访问地址参数')
     parser.addini('filepath', help='添加 截图路径')
     parser.addini('logpath', help='添加 日志路径')
-    parser.addini('username', help='用户名')
-    parser.addini('password', help='密码')
 
 
 @pytest.fixture(scope='session')
 def getdriver(pytestconfig):
     Terminal = pytestconfig.getini("Terminal")
     URL = pytestconfig.getini("URL")
-    driver = browser_Config(Terminal, URL)
+    driver = lazyTest.browser_Config(Terminal, URL)
     globals()["driver"] = driver.base_driver
-    login = LoginService(driver)
-    login.login(pytestconfig.getini("username"), pytestconfig.getini("password"))
     yield driver
     driver.browser_close()
 
@@ -57,7 +52,7 @@ def pytest_runtest_makereport(item):
     if report.when == 'call':
         xfail = hasattr(report, 'wasxfail')
         if report.failed and not xfail:
-            project = str(config.rootpath)
+            project = str(config.rootdir)
             filepath = config.getini("filepath")
             picture_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time()))
             filename = project + filepath + picture_time + ".png"
@@ -70,7 +65,7 @@ def pytest_runtest_makereport(item):
 @pytest.hookimpl(hookwrapper=True, tryfirst=True)
 def pytest_runtest_setup(item):
     config = item.config
-    project = str(config.rootpath)
+    project = str(config.rootdir)
     logpath = config.getini("logpath")
     logging_plugin = config.pluginmanager.get_plugin("logging-plugin")
     logging_plugin.set_log_path(project + logpath)

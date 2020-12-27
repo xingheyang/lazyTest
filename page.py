@@ -1,6 +1,6 @@
 # -*- coding = UTF-8 -*-
 # Autohr   : yang
-# File     : page.py
+# File     : pages.py
 # project  : McenterSystem
 # time     : 2020/12/3 11:56
 # Describe :
