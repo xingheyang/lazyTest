@@ -247,7 +247,7 @@ run()
     create_folder(os.path.join(project_name, "result", "report"))
     create_folder(os.path.join(project_name, "result", "screenshot"))
     create_folder(os.path.join(project_name, "resources"))
-    create_folder(os.path.join(project_name, "resources", "elementSource"))
+    create_folder(os.path.join(project_name, "resources", "element"))
     # 创建核心文件
     create_file(os.path.join(project_name, "__init__.py"))
     create_file(os.path.join(project_name, "case", "conftest.py"), conftest)
